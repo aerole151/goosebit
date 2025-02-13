@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
     setInterval(() => {
-        dataTable.ajax.reload(null, false);
+        updateDeviceList();
     }, TABLE_UPDATE_TIME);
 
     await updateSoftwareSelection();
@@ -380,5 +380,9 @@ async function pinDevices(devices) {
 }
 
 function updateDeviceList() {
-    dataTable.ajax.reload();
+    const scrollPosition = $("#device-table").parent().scrollTop(); // Get current scroll position
+
+    dataTable.ajax.reload(() => {
+        $("#device-table").parent().scrollTop(scrollPosition); // Restore scroll position after reload
+    }, false);
 }
